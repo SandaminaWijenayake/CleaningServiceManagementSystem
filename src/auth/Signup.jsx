@@ -30,12 +30,10 @@ const Signup = () => {
         return;
       }
 
-      const response = await axios.post("http://localhost:10000/users", form);
-
-      localStorage.setItem(
-        "user",
-        JSON.stringify({ username: response.data.username })
-      );
+      await axios.post("http://localhost:10000/users", {
+        ...form,
+        role: "user",
+      });
 
       navigate("/auth/login");
     } catch (error) {
@@ -72,7 +70,7 @@ const Signup = () => {
           Sign Up
         </button>
         <div>
-          Already have an account?{" "}
+          Already have an account?
           <button
             onClick={() => {
               navigate("/auth/Login");

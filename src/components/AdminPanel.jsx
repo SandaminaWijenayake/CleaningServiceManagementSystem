@@ -10,6 +10,11 @@ export const AdminPanel = () => {
     date_time: "",
     service_type: "",
   });
+  const [editingUserId, setEditingUserId] = useState(null);
+  const [editUserForm, setEditUserForm] = useState({
+    username: "",
+    password: "",
+  });
 
   useEffect(() => {
     fetchBookings();
@@ -38,6 +43,21 @@ export const AdminPanel = () => {
     fetchUsers();
   };
 
+  const handleEditUser = (user) => {
+    setEditingUserId(user.id);
+    setEditUserForm({ username: user.username, password: user.password });
+  };
+
+  const handleUpdateUser = async () => {
+    await fetch(`http://localhost:10000/users/${editingUserId}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(editUserForm),
+    });
+    setEditingUserId(null);
+    fetchUsers();
+  };
+
   const handleEditBooking = (booking) => {
     setEditingBookingId(booking.id);
     setEditBookingForm({ ...booking });
@@ -60,25 +80,67 @@ export const AdminPanel = () => {
         {users.map((user) => (
           <div
             key={user.id}
-            className="p-4 mb-2 border rounded flex justify-between"
+            className="p-4 mb-2 border rounded flex justify-between items-start"
           >
-            <div>
-              <p>
-                <strong>ID:</strong> {user.id}
-              </p>
-              <p>
-                <strong>Username:</strong> {user.username}
-              </p>
-              <p>
-                <strong>Password:</strong> {user.password}
-              </p>
-            </div>
-            <button
-              onClick={() => handleDeleteUser(user.id)}
-              className="text-red-600 underline"
-            >
-              Delete
-            </button>
+            {editingUserId === user.id ? (
+              <div className="flex flex-col gap-2 w-full">
+                <input
+                  value={editUserForm.username}
+                  onChange={(e) =>
+                    setEditUserForm({
+                      ...editUserForm,
+                      username: e.target.value,
+                    })
+                  }
+                  className="p-2 border rounded"
+                />
+                <input
+                  value={editUserForm.password}
+                  onChange={(e) =>
+                    setEditUserForm({
+                      ...editUserForm,
+                      password: e.target.value,
+                    })
+                  }
+                  className="p-2 border rounded"
+                />
+                <button
+                  onClick={handleUpdateUser}
+                  className="bg-green-600 text-white p-2 rounded"
+                >
+                  Save
+                </button>
+              </div>
+            ) : (
+              <div>
+                <p>
+                  <strong>ID:</strong> {user.id}
+                </p>
+                <p>
+                  <strong>Username:</strong> {user.username}
+                </p>
+                <p>
+                  <strong>Password:</strong> {user.password}
+                </p>
+              </div>
+            )}
+
+            {user.role !== "admin" && (
+              <div className="space-y-2 ml-4">
+                <button
+                  onClick={() => handleEditUser(user)}
+                  className="text-blue-600 underline"
+                >
+                  Edit
+                </button>
+                <button
+                  onClick={() => handleDeleteUser(user.id)}
+                  className="text-red-600 underline"
+                >
+                  Delete
+                </button>
+              </div>
+            )}
           </div>
         ))}
       </div>

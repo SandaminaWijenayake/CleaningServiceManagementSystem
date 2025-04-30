@@ -6,23 +6,37 @@ import { BookingList } from "./components/BookingList";
 import { AdminPanel } from "./components/AdminPanel";
 import Login from "./auth/Login";
 import SignUp from "./auth/Signup";
+import Protection from "./components/Potection";
+import AdminProtection from "./components/AdminProtection";
+import Unauthorized from "./components/Unauthorized";
 
 const router = createBrowserRouter([
   {
-    path: "/",
-    Component: Root,
+    path: "auth",
     children: [
-      { index: true, Component: Booking },
+      { path: "Login", Component: Login },
+      { path: "Signup", Component: SignUp },
+    ],
+  },
+  {
+    path: "/",
+    element: <Protection />,
+    children: [
       {
-        path: "auth",
+        path: "",
+        Component: Root,
         children: [
-          { path: "Login", Component: Login },
-          { path: "Signup", Component: SignUp },
+          { index: true, Component: Booking },
+          { path: "BookingList", Component: BookingList },
+          { path: "BookingForm", Component: Booking },
+          {
+            path: "AdminPanel",
+            element: <AdminProtection />,
+            children: [{ index: true, Component: AdminPanel }],
+          },
+          { path: "unauthorized", Component: Unauthorized },
         ],
       },
-      { path: "BookingForm", Component: Booking },
-      { path: "BookingList", Component: BookingList },
-      { path: "AdminPanel", Component: AdminPanel },
     ],
   },
 ]);

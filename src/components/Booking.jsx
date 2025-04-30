@@ -14,6 +14,7 @@ export const Booking = () => {
 
   const loggedUser = JSON.parse(localStorage.getItem("user"));
   const username = loggedUser?.username;
+  console.log(username);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });

@@ -25,11 +25,14 @@ const Login = () => {
       );
 
       if (user) {
-        localStorage.setItem(
-          "user",
-          JSON.stringify({ username: form.username })
-        );
-        navigate("/BookingForm");
+        localStorage.setItem("user", JSON.stringify(user));
+        localStorage.setItem("isLoggedIn", "true");
+
+        if (user.role === "admin") {
+          navigate("/AdminPanel");
+        } else {
+          navigate("/BookingForm");
+        }
       } else {
         alert("Username and password not matching");
       }
