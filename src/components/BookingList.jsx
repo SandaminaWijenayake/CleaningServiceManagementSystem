@@ -9,16 +9,27 @@ export const BookingList = () => {
     date_time: "",
     service_type: "",
   });
+
   useEffect(() => {
     fetchBookings();
   }, []);
+
   const fetchBookings = async () => {
-    const res = await fetch("http://localhost:3001/bookings");
+    const res = await fetch("http://localhost:10000/bookings");
     const data = await res.json();
-    setBookings(data);
+
+    const loggedUser = JSON.parse(localStorage.getItem("user"));
+    const loggedInUsername = loggedUser?.username;
+
+    const userBookings = data.filter(
+      (booking) => booking.username === loggedInUsername
+    );
+
+    setBookings(userBookings);
   };
+
   const handleDelete = async (id) => {
-    await fetch(`http://localhost:3001/bookings/${id}`, { method: "DELETE" });
+    await fetch(`http://localhost:10000/bookings/${id}`, { method: "DELETE" });
     fetchBookings();
   };
 
@@ -28,7 +39,7 @@ export const BookingList = () => {
   };
 
   const handleUpdate = async () => {
-    await fetch(`http://localhost:3001/bookings/${editingId}`, {
+    await fetch(`http://localhost:10000/bookings/${editingId}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(editForm),
@@ -36,6 +47,7 @@ export const BookingList = () => {
     setEditingId(null);
     fetchBookings();
   };
+
   return (
     <div className="max-w-3xl mx-auto mt-10">
       <h2 className="text-2xl font-semibold mb-4">Manage Bookings</h2>
@@ -93,11 +105,18 @@ export const BookingList = () => {
           ) : (
             <div>
               <p>
-                <strong>{booking.customer_name}</strong>
+                <strong>Customer Name:</strong> {booking.customer_name}
               </p>
-              <p>{booking.address}</p>
-              <p>{new Date(booking.date_time).toLocaleString()}</p>
-              <p>{booking.service_type}</p>
+              <p>
+                <strong>Address:</strong> {booking.address}
+              </p>
+              <p>
+                <strong>Date & Time:</strong>{" "}
+                {new Date(booking.date_time).toLocaleString()}
+              </p>
+              <p>
+                <strong>Service Type:</strong> {booking.service_type}
+              </p>
             </div>
           )}
           <div className="space-y-2 ml-4">

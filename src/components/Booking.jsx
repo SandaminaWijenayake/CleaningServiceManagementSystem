@@ -1,14 +1,19 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
+import axios from "axios";
 
 export const Booking = () => {
+  const navigate = useNavigate();
+
   const [form, setForm] = useState({
     customer_name: "",
     address: "",
     date_time: "",
     service_type: "",
   });
-  const navigate = useNavigate();
+
+  const loggedUser = JSON.parse(localStorage.getItem("user"));
+  const username = loggedUser?.username;
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -17,25 +22,41 @@ export const Booking = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (!username) {
+      alert("No user is logged in!");
+      return;
+    }
+
     const newBooking = {
       ...form,
       date_time: new Date(form.date_time),
+      customer_name: form.customer_name,
+      username: username,
     };
 
-    await fetch("http://localhost:3001/bookings", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(newBooking),
-    });
+    try {
+      const response = await axios.post(
+        "http://localhost:10000/bookings",
+        newBooking
+      );
 
-    setForm({
-      customer_name: "",
-      address: "",
-      date_time: "",
-      service_type: "",
-    });
-    navigate("/bookings");
+      if (response.status === 201) {
+        console.log("Booking successfully added:", response.data);
+      }
+
+      setForm({
+        customer_name: "",
+        address: "",
+        date_time: "",
+        service_type: "",
+      });
+
+      navigate("/BookingList");
+    } catch (error) {
+      console.error("Error during booking:", error);
+    }
   };
+
   return (
     <div className="max-w-md mx-auto mt-10 p-6 border rounded shadow">
       <h2 className="text-xl font-semibold mb-4">Book a Cleaning Service</h2>
