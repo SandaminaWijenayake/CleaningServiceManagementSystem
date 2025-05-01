@@ -1,6 +1,14 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 import axios from "axios";
+import {
+  TextField,
+  Button,
+  Typography,
+  Box,
+  Paper,
+  MenuItem,
+} from "@mui/material";
 
 export const Booking = () => {
   const navigate = useNavigate();
@@ -59,52 +67,71 @@ export const Booking = () => {
   };
 
   return (
-    <div className="max-w-md mx-auto mt-10 p-6 border rounded shadow">
-      <h2 className="text-xl font-semibold mb-4">Book a Cleaning Service</h2>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <input
-          name="customer_name"
-          value={form.customer_name}
-          onChange={handleChange}
-          placeholder="Customer Name"
-          className="w-full p-2 border rounded"
-          required
-        />
-        <input
-          name="address"
-          value={form.address}
-          onChange={handleChange}
-          placeholder="Address"
-          className="w-full p-2 border rounded"
-          required
-        />
-        <input
-          type="datetime-local"
-          name="date_time"
-          value={form.date_time}
-          onChange={handleChange}
-          className="w-full p-2 border rounded"
-          required
-        />
-        <select
-          name="service_type"
-          value={form.service_type}
-          onChange={handleChange}
-          className="w-full p-2 border rounded"
-          required
-        >
-          <option value="">Select Service Type</option>
-          <option value="Deep Cleaning">Deep Cleaning</option>
-          <option value="Carpet Cleaning">Carpet Cleaning</option>
-          <option value="Window Cleaning">Window Cleaning</option>
-        </select>
-        <button
-          type="submit"
-          className="w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700"
-        >
-          Submit Booking
-        </button>
+    <Paper
+      elevation={3}
+      sx={{
+        maxWidth: 400,
+        mx: "auto",
+        mt: 10,
+        p: 4,
+        borderRadius: 2,
+      }}
+    >
+      <Typography variant="h6" fontWeight="bold" gutterBottom>
+        Book a Cleaning Service
+      </Typography>
+
+      <form onSubmit={handleSubmit}>
+        <Box display="flex" flexDirection="column" gap={3}>
+          <TextField
+            label="Customer Name"
+            name="customer_name"
+            value={form.customer_name}
+            onChange={handleChange}
+            fullWidth
+            required
+          />
+
+          <TextField
+            label="Address"
+            name="address"
+            value={form.address}
+            onChange={handleChange}
+            fullWidth
+            required
+          />
+
+          <TextField
+            label="Date & Time"
+            type="datetime-local"
+            name="date_time"
+            value={form.date_time}
+            onChange={handleChange}
+            fullWidth
+            required
+            InputLabelProps={{ shrink: true }}
+          />
+
+          <TextField
+            select
+            label="Service Type"
+            name="service_type"
+            value={form.service_type}
+            onChange={handleChange}
+            fullWidth
+            required
+          >
+            <MenuItem value="">Select Service Type</MenuItem>
+            <MenuItem value="Deep Cleaning">Deep Cleaning</MenuItem>
+            <MenuItem value="Carpet Cleaning">Carpet Cleaning</MenuItem>
+            <MenuItem value="Window Cleaning">Window Cleaning</MenuItem>
+          </TextField>
+
+          <Button type="submit" variant="contained" color="primary" fullWidth>
+            Submit Booking
+          </Button>
+        </Box>
       </form>
-    </div>
+    </Paper>
   );
 };

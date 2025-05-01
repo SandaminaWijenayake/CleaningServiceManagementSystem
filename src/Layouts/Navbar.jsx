@@ -1,5 +1,6 @@
 import React from "react";
-import { Link, useNavigate } from "react-router";
+import { Link as RouterLink, useNavigate } from "react-router";
+import { AppBar, Toolbar, Button, Box } from "@mui/material";
 
 export const Navbar = () => {
   const navigate = useNavigate();
@@ -12,22 +13,60 @@ export const Navbar = () => {
   const user = JSON.parse(localStorage.getItem("user"));
 
   return (
-    <nav className=" p-4 w-1/2 m-auto flex justify-around gap-4">
-      {user?.role !== "admin" && (
-        <div className="flex gap-4 justify-between">
-          <Link to="/" className="text-blue-600 font-semibold">
-            Booking Form
-          </Link>
-          <Link to="/BookingList" className="text-blue-600 font-semibold">
-            Manage Bookings
-          </Link>
-        </div>
-      )}
-      {user && (
-        <button onClick={handleLogout} className="text-blue-600 font-semibold">
-          Log out
-        </button>
-      )}
-    </nav>
+    <AppBar position="static" color="default" elevation={0}>
+      <Toolbar
+        sx={{
+          justifyContent: "space-between",
+          maxWidth: 1000,
+          mx: "auto",
+          width: "100%",
+        }}
+      >
+        {user?.role !== "admin" && (
+          <Box sx={{ display: "flex", gap: 2 }}>
+            <Button
+              component={RouterLink}
+              to="/"
+              sx={{
+                color: "black",
+                fontWeight: 600,
+                "&:hover": {
+                  color: "primary.main",
+                  textDecoration: "underline",
+                },
+              }}
+            >
+              Booking Form
+            </Button>
+            <Button
+              component={RouterLink}
+              to="/BookingList"
+              sx={{
+                color: "black",
+                fontWeight: 600,
+                "&:hover": {
+                  color: "primary.main",
+                  textDecoration: "underline",
+                },
+              }}
+            >
+              Manage Bookings
+            </Button>
+          </Box>
+        )}
+        {user && (
+          <Button
+            onClick={handleLogout}
+            sx={{
+              color: "primary.main",
+              fontWeight: 600,
+              "&:hover": { color: "black", textDecoration: "underline" },
+            }}
+          >
+            Log out
+          </Button>
+        )}
+      </Toolbar>
+    </AppBar>
   );
 };

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router";
+import { TextField, Button, Typography, Box, Paper } from "@mui/material";
 
 const Login = () => {
   const [form, setForm] = useState({
@@ -42,44 +43,74 @@ const Login = () => {
   };
 
   return (
-    <div className="max-w-md mx-auto mt-10 p-6 border rounded shadow">
-      <h2 className="text-xl font-semibold mb-4">Login</h2>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <input
-          type="text"
-          name="username"
-          value={form.username}
-          onChange={handleChange}
-          placeholder="Username"
-          className="w-full p-2 border rounded"
-          required
-        />
-        <input
-          type="password"
-          name="password"
-          value={form.password}
-          onChange={handleChange}
-          placeholder="Password"
-          className="w-full p-2 border rounded"
-          required
-        />
-        <button
-          type="submit"
-          className="w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700"
-        >
+    <Box>
+      <Box
+        display="flex"
+        justifyContent="center"
+        pt={10}
+        width={"80%"}
+        m="auto"
+      >
+        <Typography variant="h4" fontWeight="bold" textAlign={"center"}>
+          Clearing Service Management System
+        </Typography>
+      </Box>
+
+      <Paper
+        elevation={3}
+        sx={{
+          maxWidth: 400,
+          mx: "auto",
+          mt: 10,
+          p: 4,
+          borderRadius: 2,
+        }}
+      >
+        <Typography variant="h6" gutterBottom>
           Login
-        </button>
-        If you haven't registered{" "}
-        <button
-          onClick={() => {
-            navigate("/auth/Signup");
-          }}
-          className="text-blue-600 cursor-pointer"
-        >
-          Sign up
-        </button>
-      </form>
-    </div>
+        </Typography>
+
+        <form onSubmit={handleSubmit}>
+          <Box display="flex" flexDirection="column" gap={3}>
+            <TextField
+              label="Username"
+              name="username"
+              value={form.username}
+              onChange={handleChange}
+              variant="outlined"
+              fullWidth
+              required
+            />
+
+            <TextField
+              label="Password"
+              name="password"
+              type="password"
+              value={form.password}
+              onChange={handleChange}
+              variant="outlined"
+              fullWidth
+              required
+            />
+
+            <Button type="submit" variant="contained" color="primary" fullWidth>
+              Login
+            </Button>
+
+            <Typography variant="body2" align="center">
+              If you haven't registered{" "}
+              <Button
+                onClick={() => navigate("/auth/Signup")}
+                variant="text"
+                color="primary"
+              >
+                Sign up
+              </Button>
+            </Typography>
+          </Box>
+        </form>
+      </Paper>
+    </Box>
   );
 };
 

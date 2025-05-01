@@ -1,4 +1,16 @@
 import React, { useEffect, useState } from "react";
+import {
+  Button,
+  TextField,
+  MenuItem,
+  Select,
+  InputLabel,
+  FormControl,
+  Card,
+  CardContent,
+  CardActions,
+  Box,
+} from "@mui/material";
 
 export const AdminPanel = () => {
   const [bookings, setBookings] = useState([]);
@@ -78,164 +90,212 @@ export const AdminPanel = () => {
       <div>
         <h2 className="text-2xl font-semibold mb-4">Manage Users</h2>
         {users.map((user) => (
-          <div
+          <Card
             key={user.id}
-            className="p-4 mb-2 border rounded flex justify-between items-start"
+            sx={{
+              marginBottom: 2,
+              borderRadius: 2,
+              boxShadow: 1,
+              transition: "transform 0.2s, box-shadow 0.2s",
+              "&:hover": {
+                boxShadow: 3,
+              },
+            }}
           >
-            {editingUserId === user.id ? (
-              <div className="flex flex-col gap-2 w-full">
-                <input
-                  value={editUserForm.username}
-                  onChange={(e) =>
-                    setEditUserForm({
-                      ...editUserForm,
-                      username: e.target.value,
-                    })
-                  }
-                  className="p-2 border rounded"
-                />
-                <input
-                  value={editUserForm.password}
-                  onChange={(e) =>
-                    setEditUserForm({
-                      ...editUserForm,
-                      password: e.target.value,
-                    })
-                  }
-                  className="p-2 border rounded"
-                />
-                <button
-                  onClick={handleUpdateUser}
-                  className="bg-green-600 text-white p-2 rounded"
-                >
-                  Save
-                </button>
-              </div>
-            ) : (
-              <div>
-                <p>
-                  <strong>ID:</strong> {user.id}
-                </p>
-                <p>
-                  <strong>Username:</strong> {user.username}
-                </p>
-                <p>
-                  <strong>Password:</strong> {user.password}
-                </p>
-              </div>
-            )}
-
+            <CardContent>
+              {editingUserId === user.id ? (
+                <div className="flex flex-col gap-2 w-full">
+                  <TextField
+                    label="Username"
+                    value={editUserForm.username}
+                    onChange={(e) =>
+                      setEditUserForm({
+                        ...editUserForm,
+                        username: e.target.value,
+                      })
+                    }
+                    className="p-2"
+                    fullWidth
+                  />
+                  <TextField
+                    label="Password"
+                    value={editUserForm.password}
+                    onChange={(e) =>
+                      setEditUserForm({
+                        ...editUserForm,
+                        password: e.target.value,
+                      })
+                    }
+                    className="p-2"
+                    fullWidth
+                    type="password"
+                  />
+                  <Button
+                    onClick={handleUpdateUser}
+                    variant="contained"
+                    color="success"
+                    className="mt-2"
+                  >
+                    Save
+                  </Button>
+                </div>
+              ) : (
+                <div>
+                  <p>
+                    <strong>ID:</strong> {user.id}
+                  </p>
+                  <p>
+                    <strong>Username:</strong> {user.username}
+                  </p>
+                  <p>
+                    <strong>Password:</strong> {user.password}
+                  </p>
+                </div>
+              )}
+            </CardContent>
             {user.role !== "admin" && (
-              <div className="space-y-2 ml-4">
-                <button
+              <CardActions sx={{ justifyContent: "flex-end" }}>
+                <Button
                   onClick={() => handleEditUser(user)}
-                  className="text-blue-600 underline mr-3"
+                  variant="text"
+                  color="primary"
+                  className="mr-3"
                 >
                   Edit
-                </button>
-                <button
+                </Button>
+                <Button
                   onClick={() => handleDeleteUser(user.id)}
-                  className="text-red-600 underline"
+                  variant="text"
+                  color="error"
                 >
                   Delete
-                </button>
-              </div>
+                </Button>
+              </CardActions>
             )}
-          </div>
+          </Card>
         ))}
       </div>
 
-      {/* Bookings Section */}
       <div>
         <h2 className="text-2xl font-semibold mb-4">Manage Bookings</h2>
         {bookings.map((booking) => (
-          <div
+          <Card
             key={booking.id}
-            className="p-4 mb-4 border rounded flex justify-between items-start"
+            sx={{
+              marginBottom: 2,
+              borderRadius: 2,
+              boxShadow: 1,
+              transition: "transform 0.2s, box-shadow 0.2s",
+              "&:hover": {
+                boxShadow: 3,
+              },
+            }}
           >
-            {editingBookingId === booking.id ? (
-              <div className="flex flex-col gap-2 w-full">
-                <input
-                  name="customer_name"
-                  value={editBookingForm.customer_name}
-                  onChange={(e) =>
-                    setEditBookingForm({
-                      ...editBookingForm,
-                      customer_name: e.target.value,
-                    })
-                  }
-                  className="p-2 border rounded"
-                />
-                <input
-                  name="address"
-                  value={editBookingForm.address}
-                  onChange={(e) =>
-                    setEditBookingForm({
-                      ...editBookingForm,
-                      address: e.target.value,
-                    })
-                  }
-                  className="p-2 border rounded"
-                />
-                <input
-                  type="datetime-local"
-                  name="date_time"
-                  value={editBookingForm.date_time}
-                  onChange={(e) =>
-                    setEditBookingForm({
-                      ...editBookingForm,
-                      date_time: e.target.value,
-                    })
-                  }
-                  className="p-2 border rounded"
-                />
-                <select
-                  name="service_type"
-                  value={editBookingForm.service_type}
-                  onChange={(e) =>
-                    setEditBookingForm({
-                      ...editBookingForm,
-                      service_type: e.target.value,
-                    })
-                  }
-                  className="p-2 border rounded"
-                >
-                  <option value="Deep Cleaning">Deep Cleaning</option>
-                  <option value="Carpet Cleaning">Carpet Cleaning</option>
-                  <option value="Window Cleaning">Window Cleaning</option>
-                </select>
-                <button
-                  onClick={handleUpdateBooking}
-                  className="bg-green-600 text-white p-2 rounded mt-2"
-                >
-                  Save
-                </button>
-              </div>
-            ) : (
-              <div>
-                <p>
-                  <strong>{booking.customer_name}</strong>
-                </p>
-                <p>{booking.address}</p>
-                <p>{new Date(booking.date_time).toLocaleString()}</p>
-                <p>{booking.service_type}</p>
-              </div>
-            )}
-            <div className="space-y-2 ml-4">
-              <button
+            <CardContent>
+              {editingBookingId === booking.id ? (
+                <div className="flex flex-col gap-2 w-full">
+                  <TextField
+                    name="customer_name"
+                    label="Customer Name"
+                    value={editBookingForm.customer_name}
+                    onChange={(e) =>
+                      setEditBookingForm({
+                        ...editBookingForm,
+                        customer_name: e.target.value,
+                      })
+                    }
+                    className="p-2"
+                    fullWidth
+                  />
+                  <TextField
+                    name="address"
+                    label="Address"
+                    value={editBookingForm.address}
+                    onChange={(e) =>
+                      setEditBookingForm({
+                        ...editBookingForm,
+                        address: e.target.value,
+                      })
+                    }
+                    className="p-2"
+                    fullWidth
+                  />
+                  <TextField
+                    label="Date & Time"
+                    type="datetime-local"
+                    name="date_time"
+                    value={editBookingForm.date_time}
+                    onChange={(e) =>
+                      setEditBookingForm({
+                        ...editBookingForm,
+                        date_time: e.target.value,
+                      })
+                    }
+                    fullWidth
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                  />
+                  <FormControl fullWidth>
+                    <InputLabel>Service Type</InputLabel>
+                    <Select
+                      name="service_type"
+                      value={editBookingForm.service_type}
+                      onChange={(e) =>
+                        setEditBookingForm({
+                          ...editBookingForm,
+                          service_type: e.target.value,
+                        })
+                      }
+                      label="Service Type"
+                    >
+                      <MenuItem value="Deep Cleaning">Deep Cleaning</MenuItem>
+                      <MenuItem value="Carpet Cleaning">
+                        Carpet Cleaning
+                      </MenuItem>
+                      <MenuItem value="Window Cleaning">
+                        Window Cleaning
+                      </MenuItem>
+                    </Select>
+                  </FormControl>
+                  <Button
+                    onClick={handleUpdateBooking}
+                    variant="contained"
+                    color="success"
+                    className="mt-2"
+                  >
+                    Save
+                  </Button>
+                </div>
+              ) : (
+                <div>
+                  <p>
+                    <strong>{booking.customer_name}</strong>
+                  </p>
+                  <p>{booking.address}</p>
+                  <p>{new Date(booking.date_time).toLocaleString()}</p>
+                  <p>{booking.service_type}</p>
+                </div>
+              )}
+            </CardContent>
+            <CardActions sx={{ justifyContent: "flex-end" }}>
+              <Button
                 onClick={() => handleEditBooking(booking)}
-                className="text-blue-600 underline mr-3"
+                variant="text"
+                color="primary"
+                className="mr-3"
               >
                 Edit
-              </button>
-              <button
+              </Button>
+              <Button
                 onClick={() => handleDeleteBooking(booking.id)}
-                className="text-red-600 underline"
+                variant="text"
+                color="error"
               >
                 Delete
-              </button>
-            </div>
-          </div>
+              </Button>
+            </CardActions>
+          </Card>
         ))}
       </div>
     </div>

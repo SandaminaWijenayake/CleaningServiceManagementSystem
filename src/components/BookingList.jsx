@@ -1,4 +1,14 @@
 import React, { useEffect, useState } from "react";
+import {
+  Button,
+  TextField,
+  MenuItem,
+  Select,
+  InputLabel,
+  FormControl,
+  Box,
+  Card,
+} from "@mui/material";
 
 export const BookingList = () => {
   const [bookings, setBookings] = useState([]);
@@ -52,55 +62,75 @@ export const BookingList = () => {
     <div className="max-w-3xl mx-auto mt-10">
       <h2 className="text-2xl font-semibold mb-4">Manage Bookings</h2>
       {bookings.map((booking) => (
-        <div
+        <Card
+          sx={{
+            maxWidth: 600,
+            "&:hover": {
+              boxShadow: 3,
+            },
+          }}
           key={booking.id}
-          className="p-4 mb-4 border rounded flex justify-between items-start"
+          className="p-4 mb-4  rounded flex justify-between items-start"
         >
           {editingId === booking.id ? (
             <div className="flex flex-col gap-2 w-full">
-              <input
+              <TextField
+                label="Customer Name"
+                variant="outlined"
                 name="customer_name"
                 value={editForm.customer_name}
                 onChange={(e) =>
                   setEditForm({ ...editForm, customer_name: e.target.value })
                 }
-                className="p-2 border rounded"
+                fullWidth
               />
-              <input
+              <TextField
+                label="Address"
+                variant="outlined"
                 name="address"
                 value={editForm.address}
                 onChange={(e) =>
                   setEditForm({ ...editForm, address: e.target.value })
                 }
-                className="p-2 border rounded"
+                fullWidth
               />
-              <input
+              <TextField
+                label="Date & Time"
+                variant="outlined"
                 type="datetime-local"
                 name="date_time"
                 value={editForm.date_time}
                 onChange={(e) =>
                   setEditForm({ ...editForm, date_time: e.target.value })
                 }
-                className="p-2 border rounded"
+                fullWidth
+                InputLabelProps={{
+                  shrink: true,
+                }}
               />
-              <select
-                name="service_type"
-                value={editForm.service_type}
-                onChange={(e) =>
-                  setEditForm({ ...editForm, service_type: e.target.value })
-                }
-                className="p-2 border rounded"
-              >
-                <option value="Deep Cleaning">Deep Cleaning</option>
-                <option value="Carpet Cleaning">Carpet Cleaning</option>
-                <option value="Window Cleaning">Window Cleaning</option>
-              </select>
-              <button
+              <FormControl fullWidth>
+                <InputLabel>Service Type</InputLabel>
+                <Select
+                  name="service_type"
+                  value={editForm.service_type}
+                  onChange={(e) =>
+                    setEditForm({ ...editForm, service_type: e.target.value })
+                  }
+                  label="Service Type"
+                >
+                  <MenuItem value="Deep Cleaning">Deep Cleaning</MenuItem>
+                  <MenuItem value="Carpet Cleaning">Carpet Cleaning</MenuItem>
+                  <MenuItem value="Window Cleaning">Window Cleaning</MenuItem>
+                </Select>
+              </FormControl>
+              <Button
                 onClick={handleUpdate}
-                className="bg-green-600 text-white p-2 rounded mt-2"
+                variant="contained"
+                color="success"
+                className="mt-2"
               >
                 Save
-              </button>
+              </Button>
             </div>
           ) : (
             <div>
@@ -119,21 +149,23 @@ export const BookingList = () => {
               </p>
             </div>
           )}
-          <div className="space-y-2  ml-4">
-            <button
+          <Box className="space-y-2 ml-4">
+            <Button
               onClick={() => handleEdit(booking)}
-              className="text-blue-600 underline mr-3"
+              variant="text"
+              color="primary"
             >
               Edit
-            </button>
-            <button
+            </Button>
+            <Button
               onClick={() => handleDelete(booking.id)}
-              className="text-red-600 underline"
+              variant="text"
+              color="error"
             >
               Delete
-            </button>
-          </div>
-        </div>
+            </Button>
+          </Box>
+        </Card>
       ))}
     </div>
   );
