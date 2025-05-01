@@ -1,12 +1,36 @@
-# React + Vite
+I try do deploy backend online but couldn't find a good website. most of them even if they are free they ask for credit card. so you have to clone my backend and test front-end with netlify.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Clone the backend from this repository: [your-backend-repo-link]
+nside the backend folder, run:
+npm install
+npm start
+This will start the JSON server 
 
-Currently, two official plugins are available:
+now you can test the netlify app. 
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+username - admin
+password - admin123 
 
-## Expanding the ESLint configuration
+User Authentication
+After login, the logged-in user is identified and tracked using localStorage.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Service Booking
+The user can navigate to the Booking page and submit a service request.
+
+Booking List
+On the Booking List page, the user can: 
+  View only their own service requests (based on their stored identity in localStorage).
+  Edit or delete their own bookings.
+
+Logout Behavior 
+  On logout:
+  All localStorage data is cleared.
+  The user is fully logged out and cannot access protected pages via the URL.
+
+Admin Privileges
+The admin can:
+  View all users and bookings.
+  Edit or delete any record.
+  The admin panel is restricted: Normal users cannot access it, even by manually entering the URL.
+
+  simple design, react router for navigation
