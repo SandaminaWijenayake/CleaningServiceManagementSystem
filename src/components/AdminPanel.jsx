@@ -129,7 +129,7 @@ export const AdminPanel = () => {
               <div className="space-y-2 ml-4">
                 <button
                   onClick={() => handleEditUser(user)}
-                  className="text-blue-600 underline"
+                  className="text-blue-600 underline mr-3"
                 >
                   Edit
                 </button>
@@ -224,7 +224,7 @@ export const AdminPanel = () => {
             <div className="space-y-2 ml-4">
               <button
                 onClick={() => handleEditBooking(booking)}
-                className="text-blue-600 underline"
+                className="text-blue-600 underline mr-3"
               >
                 Edit
               </button>

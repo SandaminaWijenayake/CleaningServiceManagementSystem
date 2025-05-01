@@ -119,10 +119,10 @@ export const BookingList = () => {
               </p>
             </div>
           )}
-          <div className="space-y-2 ml-4">
+          <div className="space-y-2  ml-4">
             <button
               onClick={() => handleEdit(booking)}
-              className="text-blue-600 underline"
+              className="text-blue-600 underline mr-3"
             >
               Edit
             </button>

@@ -12,9 +12,9 @@ export const Navbar = () => {
   const user = JSON.parse(localStorage.getItem("user"));
 
   return (
-    <nav className="bg-gray-100 p-4 flex justify-center gap-4 shadow">
+    <nav className=" p-4 w-1/2 m-auto flex justify-around gap-4">
       {user?.role !== "admin" && (
-        <div>
+        <div className="flex gap-4 justify-between">
           <Link to="/" className="text-blue-600 font-semibold">
             Booking Form
           </Link>
